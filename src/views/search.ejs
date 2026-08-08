@@ -13,12 +13,13 @@
         <input type="submit" value="search" />
     </form>
     <% if(result !==undefined) { %>
+        <div>検索語: <%- q %></div>
         <% result.forEach(item=> {%>
             <p>
-                <%= item.author %>:<%= item.body %>
+                <%- item.author %>:<%- item.body %>
             </p>
             <p>
-                <%= item.likes %>likes
+                <%- item.likes %> likes
             </p>
             <% }) %>
                 <% } %>

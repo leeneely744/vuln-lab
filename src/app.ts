@@ -8,7 +8,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-app.use("/", searchRouter);
+// search form sends to `/search` route
+app.use("/search", searchRouter);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
