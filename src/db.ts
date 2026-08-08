@@ -9,16 +9,27 @@ db.exec(`
     likes INTEGER NOT NULL DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
-  INSERT INTO comments(author, body, likes) VALUES('Alice', 'Hello', 1);
-  INSERT INTO comments(author, body, likes) VALUES('Bob', 'Hey!', 2);
-  INSERT INTO comments(author, body, likes) VALUES('Charlie', 'konnnichiwa', 3);
-  
   CREATE TABLE IF NOT EXISTS secrets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     label TEXT,
     value TEXT
   );
-  INSERT INTO secrets(label, value) VALUES('api_key', '1a1a1a');
-`);
+  `);
+
+let records: any = db.prepare("SELECT COUNT(*) as count FROM comments;").get();
+if (records?.count === 0) {
+  db.exec(`
+    INSERT INTO comments(author, body, likes) VALUES('Alice', 'Hello', 1);
+    INSERT INTO comments(author, body, likes) VALUES('Bob', 'Hey!', 2);
+    INSERT INTO comments(author, body, likes) VALUES('Charlie', 'konnnichiwa', 3);
+  `);
+}
+
+records = db.prepare("SELECT COUNT(*) as count FROM secrets;").get();
+if (records?.count === 0) {
+  db.exec(`
+    INSERT INTO secrets(label, value) VALUES('api_key', '1a1a1a');
+  `);
+}
 
 export { db };
