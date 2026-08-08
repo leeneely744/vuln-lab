@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <h1>検索！</h1>
+    <form action="/search" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="search" />
+    </form>
+    <% if(result !==undefined) { %>
+        <% result.forEach(item=> {%>
+            <p>
+                <%= item.author %>:<%= item.body %>
+            </p>
+            <p>
+                <%= item.likes %>likes
+            </p>
+            <% }) %>
+                <% } %>
+</body>
+
+</html>
