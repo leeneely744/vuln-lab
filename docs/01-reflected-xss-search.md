@@ -33,4 +33,6 @@ sql:  SELECT * FROM comments WHERE body LIKE '%<script>alert(1)</script>%';
 
 ## Fix
 
-未実施。次のステップで対応する(候補: ejsの `<%= %>` に戻して自動エスケープを効かせる、または出力前に明示的にサニタイズする)。
+`src/views/search.ejs` の `q`・`item.author`・`item.body`・`item.likes` の出力タグを、すべて `<%- %>`(エスケープなし)から `<%= %>`(エスケープあり)に変更した。
+
+**確認**: Attackで使った `<script>alert(1)</script>` を再度投入し、アラートが発生せず画面上に文字列としてそのまま(エスケープされた形で)表示されることを確認した。
