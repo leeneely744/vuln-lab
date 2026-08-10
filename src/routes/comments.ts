@@ -1,15 +1,19 @@
 import express from 'express';
 import { db } from "../db.js";
+import crypto from "crypto";
 
 const router = express.Router();
+
+let token = crypto.randomBytes(16).toString('hex');
 
 router.get("/", (req, res) => {
     const sql = "SELECT * FROM comments;";
     console.log("sql: ", sql);
 
     const result = db.prepare(sql).all();
+    token = crypto.randomBytes(16).toString('hex');
 
-    res.render("comments", { result });
+    res.render("comments", { result, token });
 });
 
 router.post("/", (req, res) => {
@@ -26,6 +30,16 @@ router.post("/", (req, res) => {
 
 router.post("/:id/delete", (req, res) => {
     const id = req.params.id;
+    const received_token = req.body.token;
+
+    console.log("token: ", received_token);
+    if (received_token !== token) {
+        console.log("CSRF Token is invalid!");
+        res.status(403).end();
+        return;
+    }
+    console.log("token is valid.");
+
     const sql = "DELETE FROM comments WHERE id = ?;"
 
     db.prepare(sql).run(id);

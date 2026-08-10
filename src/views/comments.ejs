@@ -17,9 +17,10 @@
     <% if(result !==undefined) { %>
         <% result.forEach(item=> {%>
             <p>
-                <%= item.author %>:<%= item.body %>
+                <%= item.author %>:<%= item.body %>（ID: <%= item.id %>）
             </p>
             <form action="/comments/<%= item.id %>/delete" method="post">
+                <input type="hidden" name="token" value="<%= token %>" />
                 <input type="submit" value="delete" />
             </form>
             <% }) %>
