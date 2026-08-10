@@ -17,7 +17,7 @@
     <% if(result !==undefined) { %>
         <% result.forEach(item=> {%>
             <p>
-                <%- item.author %>:<%- item.body %>
+                <%= item.author %>:<%= item.body %>
             </p>
             <form action="/comments/<%= item.id %>/delete" method="post">
                 <input type="submit" value="delete" />

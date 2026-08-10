@@ -17,6 +17,7 @@ router.post("/", (req, res) => {
     const author = req.body.author;
 
     const sql = "INSERT INTO comments(author, body) VALUES (?, ?);"
+    console.log(sql);
 
     db.prepare(sql).run(author, body);
 
