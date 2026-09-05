@@ -14,6 +14,11 @@ db.exec(`
     label TEXT,
     value TEXT
   );
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+  );
   `);
 
 let records: any = db.prepare("SELECT COUNT(*) as count FROM comments;").get();
@@ -29,6 +34,15 @@ records = db.prepare("SELECT COUNT(*) as count FROM secrets;").get();
 if (records?.count === 0) {
   db.exec(`
     INSERT INTO secrets(label, value) VALUES('api_key', '1a1a1a');
+  `);
+}
+
+records = db.prepare("SELECT COUNT(*) as count FROM users;").get();
+if (records?.count === 0) {
+  db.exec(`
+    INSERT INTO users(username, password) VALUES('Alice', '12345678');
+    INSERT INTO users(username, password) VALUES('Bob', '12345678');
+    INSERT INTO users(username, password) VALUES('Charlie', '12345678');
   `);
 }
 

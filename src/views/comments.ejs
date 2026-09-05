@@ -14,17 +14,24 @@
         <input type="submit" value="submit" />
     </form>
     <hr />
-    <% if(result !==undefined) { %>
-        <% result.forEach(item=> {%>
-            <p>
-                <%= item.author %>:<%= item.body %>（ID: <%= item.id %>）
-            </p>
-            <form action="/comments/<%= item.id %>/delete" method="post">
-                <input type="hidden" name="token" value="<%= token %>" />
-                <input type="submit" value="delete" />
-            </form>
-            <% }) %>
-                <% } %>
+    <% if(username) { %>
+        <h2>ログイン中: <%= username %>
+        </h2>
+        <a href="/auth/logout">ログアウト</a>
+        <% } else { %>
+            <a href="/auth/login">ログイン</a>
+            <% } %>
+                <% if(result !==undefined) { %>
+                    <% result.forEach(item=> {%>
+                        <p>
+                            <%= item.author %>:<%= item.body %>（ID: <%= item.id %>）
+                        </p>
+                        <form action="/comments/<%= item.id %>/delete" method="post">
+                            <input type="hidden" name="token" value="<%= token %>" />
+                            <input type="submit" value="delete" />
+                        </form>
+                        <% }) %>
+                            <% } %>
 </body>
 
 </html>

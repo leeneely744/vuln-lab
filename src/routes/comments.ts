@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
     const result = db.prepare(sql).all();
     token = crypto.randomBytes(16).toString('hex');
 
-    res.render("comments", { result, token });
+    res.render("comments", { result, token, username: undefined });
 });
 
 router.post("/", (req, res) => {
