@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 
     token = crypto.randomBytes(16).toString('hex');
 
-    res.render("comments", { result, token, username: undefined });
+    res.render("comments", { result, token, username });
 });
 
 router.post("/", (req, res) => {
