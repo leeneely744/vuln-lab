@@ -1,16 +1,28 @@
 import express from 'express';
 import { db } from "../db.js";
 import crypto from "crypto";
+import { mySessions } from "../session.js";
 
 const router = express.Router();
 
 let token = crypto.randomBytes(16).toString('hex');
 
 router.get("/", (req, res) => {
-    const sql = "SELECT * FROM comments;";
+    const sessionId = req.cookies.sessionId;
+    let username = undefined;
+
+    let sql = "";
+    let result = undefined;
+    if (mySessions.has(sessionId)) {
+        username = mySessions.get(sessionId);
+        sql = "SELECT * FROM comments WHERE author = ?;";
+        result = db.prepare(sql).all(username);
+    } else {
+        sql = "SELECT * FROM comments;";
+        result = db.prepare(sql).all();
+    }
     console.log("sql: ", sql);
 
-    const result = db.prepare(sql).all();
     token = crypto.randomBytes(16).toString('hex');
 
     res.render("comments", { result, token, username: undefined });
