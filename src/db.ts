@@ -1,5 +1,12 @@
 import Database from "better-sqlite3";
+import { hashPassword } from "./session.js";
 const db: Database.Database = Database("data/app.db")
+
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS comments (
@@ -39,10 +46,13 @@ if (records?.count === 0) {
 
 records = db.prepare("SELECT COUNT(*) as count FROM users;").get();
 if (records?.count === 0) {
+  const hashedPass1 = await hashPassword("1234");
+  const hashedPass2 = await hashPassword("5678");
+  const hashedPass3 = await hashPassword("90ab");
   db.exec(`
-    INSERT INTO users(username, password) VALUES('Alice', '12345678');
-    INSERT INTO users(username, password) VALUES('Bob', '12345678');
-    INSERT INTO users(username, password) VALUES('Charlie', '12345678');
+    INSERT INTO users(username, password) VALUES('Alice', '${hashedPass1}');
+    INSERT INTO users(username, password) VALUES('Bob', '${hashedPass2}');
+    INSERT INTO users(username, password) VALUES('Charlie', '${hashedPass3}');
   `);
 }
 
