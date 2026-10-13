@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     const isValid = await verifyPassword(password, user.password);
 
     if (isValid) {
-        const sessionId = String(mySessions.size);
+        const sessionId = crypto.randomUUID();
         mySessions.set(sessionId, username);
         res.cookie("sessionId", sessionId);
 
